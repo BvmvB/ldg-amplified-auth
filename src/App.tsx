@@ -1,16 +1,30 @@
 import React from 'react'
 
 import Amplify from 'aws-amplify'
-import { withAuthenticator } from 'aws-amplify-react'
+import { Authenticator } from 'aws-amplify-react'
 
-import '@aws-amplify/ui/dist/style.css'
-
+import SignIn from 'SignIn'
 import awsconfig from 'aws-exports'
+import InternalApp from 'InternalApp'
 
 Amplify.configure(awsconfig)
 
-function App() {
-  return <div>This is private!</div>
+const AlwaysOn = (props: any) => {
+  return (
+    <div>
+      <div>I am always here to show current auth state: {props.authState}</div>
+    </div>
+  )
 }
 
-export default withAuthenticator(App)
+const App = () => {
+  return (
+    <Authenticator hideDefault={true} amplifyConfig={awsconfig}>
+      <SignIn />
+      <InternalApp />
+      <AlwaysOn />
+    </Authenticator>
+  )
+}
+
+export default App
